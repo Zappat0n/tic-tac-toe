@@ -11,10 +11,10 @@ class Main
 
   def user_info
     puts "Please introduce first player's name:"
-    @player1 = gets.chomp
+    @player1 = Player.new(gets.chomp, 'X')
 
     puts "Please introduce second player's name:"
-    @player2 = gets.chomp
+    @player2 = Player.new(gets.chomp, 'O')
   end
 
   def print
@@ -22,24 +22,52 @@ class Main
     @board.move(9, 'X')
   end
 
-  def iteration1
+  def iteration
+    user_info
+    @board.to_s
     i = 0
-    while i < 6
-      moves
-      i += 1
+    player = @player1
+    while i < 9
+      puts "Turn of #{player.name}"
+      if moves(player)
+        player = player == @player1 ? @player2 : @player1
+        i += 1
+      else
+        puts "#{@board.to_s} ' Wrong move!"
+      end
     end
   end
 
-  def moves
-    @player_input = gets.chomp
-    case @player_input[0]
+  def board_position(player_input)
+    case player_input[0]
     when 'a'
-      @board.move(@player_input[1].to_i, 'X')
+      player_input[1].to_i
     when 'b'
-      @board.move(3 + @player_input[1].to_i, 'X')
+      3 + player_input[1].to_i
     when 'c'
-      @board.move(6 + @player_input[1].to_i, 'X')
+      6 + player_input[1].to_i
     end
+  end
+
+  def moves(player)
+    @player_input = gets.chomp
+
+    if @player_input.length == 2 && @player_input[1].to_i < 4 && %w[a b c].include?(@player_input[0])
+      @board.move(board_position(@player_input), player.symbol)
+      true
+    else
+      false
+    end
+  end
+end
+
+# Players playing
+class Player
+  attr_accessor :name, :symbol
+
+  def initialize(name, symbol)
+    @name = name
+    @symbol = symbol
   end
 end
 
@@ -59,8 +87,10 @@ class Board
   end
 
   def move(position, symbol)
-    p ' '
-    p "#{symbol} puts in #{position}"
+    if position > 8
+      puts 'Wrong move!'
+      return
+    end
     @data[(position - 1) / 3][position % 3 - 1] = symbol
     to_s
   end
@@ -69,4 +99,4 @@ end
 main = Main.new
 # main.user_info
 # main.print
-main.iteration1
+main.iteration
