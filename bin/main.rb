@@ -1,5 +1,6 @@
 #!/usr/bin/ruby
-
+require_relative '../lib/player'
+require_relative '../lib/game_logic'
 # Main Class
 class Main
   puts 'Welcome to tic-tac-toe!'
@@ -48,7 +49,7 @@ class Main
     puts "Turn of #{player.name}"
     @player_input = gets.chomp
 
-    if @player_input.length == 2 && [1, 2, 3].include?(@player_input[1]) && %w[a b c].include?(@player_input[0])
+    if @player_input.length == 2 && @player_input[1].to_i < 4 && %w[a b c].include?(@player_input[0])
       @board.move(board_position(@player_input), player.symbol)
       true
     else
@@ -57,18 +58,10 @@ class Main
   end
 end
 
-# Players playing
-class Player
-  attr_accessor :name, :symbol
-
-  def initialize(name, symbol)
-    @name = name
-    @symbol = symbol
-  end
-end
-
 # Board class for UI
 class Board
+  include GameLogic
+
   def initialize
     @data = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']]
   end
@@ -84,10 +77,13 @@ class Board
 
   def move(position, symbol)
     if position > 8
+      puts po
       puts 'Wrong move!'
       return
     end
     @data[(position - 1) / 3][position % 3 - 1] = symbol
+
+    puts check_winner(@data)
     to_s
   end
 end
