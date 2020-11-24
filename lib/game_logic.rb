@@ -16,22 +16,28 @@ module GameLogic
 
   # @data = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']]
   def check_column
-    ar = []
-    @data.each do |arr|
-      ar << arr[0]
+    0.upto(2) do |i|
+      ar = []
+      @data.each do |arr|
+        ar << arr[i]
+      end
+      return 1 if ar.all?('X')
+      return 2 if ar.all?('O')
     end
-    return 1 if ar.all?('X')
-    return 2 if ar.all?('O')
   end
 
   def check_diagonal
     ar = []
+    arrr = []
     i = 0
+    j = 2
     @data.each do |arr|
-      ar << arr[i]
+      ar.push(arr[i])
+      arrr.push(arr[j])
       i += 1
+      j -= 1
     end
-    return 1 if ar.all?('X')
-    return 2 if ar.all?('O')
+    return 1 if ar.all?('X') || arrr.all?('X')
+    return 2 if ar.all?('O') || arrr.all?('O')
   end
 end
