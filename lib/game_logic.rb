@@ -13,7 +13,6 @@ module GameLogic
     end
   end
 
-  # @data = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']]
   def check_column
     0.upto(2) do |i|
       ar = []

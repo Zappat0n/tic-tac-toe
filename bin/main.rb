@@ -90,6 +90,4 @@ class Board
 end
 
 main = Main.new
-# main.user_info
-# main.print
 main.iteration
