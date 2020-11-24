@@ -19,6 +19,13 @@ class Main
     @board.to_s
   end
 
+  def random_winner
+    random = rand
+    puts "Player #{@player1.name} has won!" if random < 0.2
+    puts "Player #{@player2.name} has won!" if random > 0.2 && random < 0.4
+    puts 'This is a Draw!' if random > 0.7
+  end
+
   def iteration
     user_info
     i = 0
@@ -32,10 +39,8 @@ class Main
       end
 
       if i >= 5
-        random = rand
-        puts "Player #{@player1.name} has won!" if random < 0.2
-        puts "Player #{@player2.name} has won!" if random > 0.2 && random < 0.4
-        puts 'This is a Draw!' if random > 0.7
+        random_winner
+        break
       end
     end
   end
