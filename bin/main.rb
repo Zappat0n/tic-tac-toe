@@ -45,12 +45,17 @@ class Main
     end
   end
 
+  def right_move?
+    @player_input.length == 2 && [1, 2, 3].include?(@player_input[1].to_i) && %w[a b c].include?(@player_input[0])
+  end
+
   def moves(player)
     puts "Turn of #{player.name}"
     @player_input = gets.chomp
 
-    if @player_input.length == 2 && @player_input[1].to_i < 4 && %w[a b c].include?(@player_input[0])
-      @board.move(board_position(@player_input), player.symbol)
+    position = board_position(@player_input)
+    if right_move? && @board.data[(position - 1) / 3][position % 3 - 1] == ' '
+      @board.move(position, player.symbol)
       true
     else
       false
@@ -61,23 +66,25 @@ end
 # Board class for UI
 class Board
   include GameLogic
+  attr_reader :data
 
   def initialize
     @data = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']]
   end
 
   def to_s
-    p '-------'
+
+    puts '', '-------'
     @data.each do |line|
       text = "|#{line.join('|')}|"
-      p text
-      p '-------'
+      puts text
+      puts '-------'
     end
+    ' '
   end
 
   def move(position, symbol)
     @data[(position - 1) / 3][position % 3 - 1] = symbol
-
     puts check_winner(@data)
     to_s
   end
