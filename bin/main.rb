@@ -1,5 +1,6 @@
 #!/usr/bin/ruby
 
+# Main Class
 class Main
   puts 'Welcome to tic-tac-toe!'
   @round = 0
@@ -18,7 +19,39 @@ class Main
 
   def print
     @board.to_s
-    @board.move(9, "X")
+    @board.move(9, 'X')
+  end
+
+  def iteration
+    i = 0
+    while i < 6 do
+      iteration
+      i += 1
+    end
+  end
+
+  def moves
+    @player_input = gets.chomp
+    case @player_input
+    when 'a1'
+      @board.move(1, 'X')
+    when 'a2'
+      @board.move(2, 'X')
+    when 'a3'
+      @board.move(3, 'X')
+    when 'b1'
+      @board.move(4, 'X')
+    when 'b2'
+      @board.move(5, 'X')
+    when 'b3'
+      @board.move(6, 'X')
+    when 'c1'
+      @board.move(7, 'X')
+    when 'c2'
+      @board.move(8, 'X')
+    when 'c3'
+      @board.move(9, 'X')
+    end
   end
 end
 
@@ -45,5 +78,6 @@ class Board
 end
 
 main = Main.new
-#main.user_info
-main.print
+# main.user_info
+# main.print
+main.moves
