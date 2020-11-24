@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 # Module to get if there is a winner
 module GameLogic
   def check_winner(data)
     @data = data
-    return 1 if check_row == 1 || check_column == 1 || check_diagonal == 1
-    return 2 if check_row == 2 || check_column == 2 || check_diagonal == 2
+    arr = [check_row, check_column, check_diagonal]
+    return 1 if arr.any?(1)
+    return 2 if arr.any?(2)
   end
 
   def check_row
