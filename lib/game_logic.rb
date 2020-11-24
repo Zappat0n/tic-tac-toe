@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Module to get if there is a winner
 module GameLogic
   def check_winner(data)
