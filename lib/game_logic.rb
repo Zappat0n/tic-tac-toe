@@ -2,9 +2,11 @@
 module GameLogic
   def check_winner(data)
     @data = data
-    puts "check_row=#{check_row}"
+    puts "check_row = #{check_row}"
     puts "check_column = #{check_column}"
     puts "check_diagonal = #{check_diagonal}"
+    return 1 if check_row == 1 || check_column == 1 || check_diagonal == 1
+    return 2 if check_row == 2 || check_column == 2 || check_diagonal == 2
   end
 
   def check_row

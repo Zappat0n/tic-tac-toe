@@ -6,17 +6,13 @@ class Main
   puts 'Welcome to tic-tac-toe!'
   @round = 0
 
-  def initialize
-    @board = Board.new
-  end
-
   def user_info
     puts "Please introduce first player's name:"
     @player1 = Player.new(gets.chomp, 'X')
 
     puts "Please introduce second player's name:"
     @player2 = Player.new(gets.chomp, 'O')
-
+    @board = Board.new(@player1, @player2)
     @board.to_s
   end
 
@@ -68,12 +64,13 @@ class Board
   include GameLogic
   attr_reader :data
 
-  def initialize
+  def initialize(player1, player2)
+    @player1 = player1
+    @player2 = player2
     @data = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']]
   end
 
   def to_s
-
     puts '', '-------'
     @data.each do |line|
       text = "|#{line.join('|')}|"
@@ -85,8 +82,10 @@ class Board
 
   def move(position, symbol)
     @data[(position - 1) / 3][position % 3 - 1] = symbol
-    puts check_winner(@data)
+    result = check_winner(data)
     to_s
+    abort("Congratulations #{@player1.name}, you won the Game!") if result == 1
+    abort("Congratulations #{@player2.name}, you won the Game!") if result == 2
   end
 end
 
