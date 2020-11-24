@@ -29,7 +29,6 @@ class Main
     i = 0
     player = @player1
     while i < 9
-      puts "Turn of #{player.name}"
       if moves(player)
         player = player == @player1 ? @player2 : @player1
         i += 1
@@ -51,6 +50,7 @@ class Main
   end
 
   def moves(player)
+    puts "Turn of #{player.name}"
     @player_input = gets.chomp
 
     if @player_input.length == 2 && @player_input[1].to_i < 4 && %w[a b c].include?(@player_input[0])
