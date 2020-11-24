@@ -44,7 +44,6 @@ class Main
 end
 
 # Board class for UI
-
 class Board
   def initialize
     @data = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']]
