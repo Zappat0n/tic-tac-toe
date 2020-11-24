@@ -76,11 +76,6 @@ class Board
   end
 
   def move(position, symbol)
-    if position > 8
-      puts po
-      puts 'Wrong move!'
-      return
-    end
     @data[(position - 1) / 3][position % 3 - 1] = symbol
 
     puts check_winner(@data)
