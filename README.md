@@ -25,8 +25,8 @@ $ git clone https://github.com/Zappat0n/tic-tac-toe
 
 👤 **Muhammad Adeel Danish**
 
-- GitHub: []()
-- LinkedIn: []()
+- GitHub: [@bashforger](https://github.com/bashforger)
+- LinkedIn: [@adeel](https://www.linkedin.com/Muhammad-adeel-danish)
 
 👤 **Angel Barros**
 
