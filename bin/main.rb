@@ -19,17 +19,11 @@ class Main
     @board.to_s
   end
 
-  def print
-    @board.to_s
-    @board.move(9, 'X')
-  end
-
   def iteration
     user_info
     i = 0
     player = @player1
     while i < 9
-      puts "Turn of #{player.name}"
       if moves(player)
         player = player == @player1 ? @player2 : @player1
         i += 1
@@ -51,9 +45,10 @@ class Main
   end
 
   def moves(player)
+    puts "Turn of #{player.name}"
     @player_input = gets.chomp
 
-    if @player_input.length == 2 && @player_input[1].to_i < 4 && %w[a b c].include?(@player_input[0])
+    if @player_input.length == 2 && [1, 2, 3].include?(@player_input[1]) && %w[a b c].include?(@player_input[0])
       @board.move(board_position(@player_input), player.symbol)
       true
     else
