@@ -22,38 +22,28 @@ class Main
     @board.move(9, 'X')
   end
 
-  def iteration
+  def iteration1
     i = 0
-    while i < 6 do
-      iteration
+    while i < 6
+      moves
       i += 1
     end
   end
 
   def moves
     @player_input = gets.chomp
-    case @player_input
-    when 'a1'
-      @board.move(1, 'X')
-    when 'a2'
-      @board.move(2, 'X')
-    when 'a3'
-      @board.move(3, 'X')
-    when 'b1'
-      @board.move(4, 'X')
-    when 'b2'
-      @board.move(5, 'X')
-    when 'b3'
-      @board.move(6, 'X')
-    when 'c1'
-      @board.move(7, 'X')
-    when 'c2'
-      @board.move(8, 'X')
-    when 'c3'
-      @board.move(9, 'X')
+    case @player_input[0]
+    when 'a'
+      @board.move(@player_input[1].to_i, 'X')
+    when 'b'
+      @board.move(3 + @player_input[1].to_i, 'X')
+    when 'c'
+      @board.move(6 + @player_input[1].to_i, 'X')
     end
   end
 end
+
+# Board class for UI
 
 class Board
   def initialize
@@ -80,4 +70,4 @@ end
 main = Main.new
 # main.user_info
 # main.print
-main.moves
+main.iteration1
