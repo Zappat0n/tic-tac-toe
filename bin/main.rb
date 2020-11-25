@@ -30,28 +30,18 @@ class Main
     end
   end
 
-  def board_position(player_input)
-    case player_input[0]
-    when 'a'
-      player_input[1].to_i
-    when 'b'
-      3 + player_input[1].to_i
-    when 'c'
-      6 + player_input[1].to_i
-    end
-  end
-
-  def right_move?
-    @player_input.length == 2 && [1, 2, 3].include?(@player_input[1].to_i) && %w[a b c].include?(@player_input[0])
+  def right_move?(first, second)
+    @player_input.length == 2 && !first.nil? && !second.nil? && @board.data[first][second] == ' '
   end
 
   def moves(player)
     puts "Turn of #{player.name}"
     @player_input = gets.chomp
 
-    position = board_position(@player_input)
-    if right_move? && @board.data[(position - 1) / 3][position % 3 - 1] == ' '
-      @board.move(position, player.symbol)
+    first = %w[a b c].index(@player_input[0])
+    second = [1, 2, 3].index(@player_input[1].to_i)
+    if right_move?(first, second)
+      @board.move(first, second, player.symbol)
       true
     else
       false
@@ -80,8 +70,8 @@ class Board
     ' '
   end
 
-  def move(position, symbol)
-    @data[(position - 1) / 3][position % 3 - 1] = symbol
+  def move(first, second, symbol)
+    @data[first][second] = symbol
     result = check_winner(data)
     to_s
     abort("Congratulations #{@player1.name}, you won the Game!") if result == 1
