@@ -2,34 +2,20 @@
 class Game
   require_relative './check_winner'
   include Checker
+  attr_reader :data
+
   def initialize(player1, player2)
     @data = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']]
     @player1 = player1
     @player2 = player2
-    @round = 0
-    print_board
-    start
-  end
-
-  def start
-    player = @player1
-    while @round < 9
-      if player_moves?(player)
-        player = player == @player1 ? @player2 : @player1
-        @round += 1
-      else
-        player_wrong_move
-      end
-    end
-    this_is_a_draw
   end
 
   def right_move?(first, second)
     @player_input.length == 2 && !first.nil? && !second.nil? && @data[first][second] == ' '
   end
 
-  def player_moves?(player)
-    @player_input = player_move(player)
+  def player_moves?(player, player_input)
+    @player_input = player_input
     first = %w[a b c].index(@player_input[0])
     second = [1, 2, 3].index(@player_input[1].to_i)
     if right_move?(first, second)
@@ -43,7 +29,6 @@ class Game
   def move(first, second, symbol)
     @data[first][second] = symbol
     result = check_winner(@data)
-    print_board
     player_won(@player1) if result == 1
     player_won(@player2) if result == 2
   end
