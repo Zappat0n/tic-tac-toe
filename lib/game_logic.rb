@@ -1,42 +1,50 @@
-# Module to get if there is a winner
-module GameLogic
-  def check_winner(data)
-    @data = data
-    arr = [check_row, check_column, check_diagonal]
-    return 1 if arr.any?(1)
-    return 2 if arr.any?(2)
+# Class for game creation
+class Game
+  require_relative './check_winner'
+  include Checker
+  def initialize(player1, player2)
+    @data = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']]
+    @player1 = player1
+    @player2 = player2
+    @round = 0
+    print_board
+    start
   end
 
-  def check_row
-    @data.each do |arr|
-      return 1 if arr.all?('X')
-      return 2 if arr.all?('O')
-    end
-  end
-
-  def check_column
-    0.upto(2) do |i|
-      ar = []
-      @data.each do |arr|
-        ar << arr[i]
+  def start
+    player = @player1
+    while @round < 9
+      if player_moves?(player)
+        player = player == @player1 ? @player2 : @player1
+        @round += 1
+      else
+        player_wrong_move
       end
-      return 1 if ar.all?('X')
-      return 2 if ar.all?('O')
+    end
+    this_is_a_draw
+  end
+
+  def right_move?(first, second)
+    @player_input.length == 2 && !first.nil? && !second.nil? && @data[first][second] == ' '
+  end
+
+  def player_moves?(player)
+    @player_input = player_move(player)
+    first = %w[a b c].index(@player_input[0])
+    second = [1, 2, 3].index(@player_input[1].to_i)
+    if right_move?(first, second)
+      move(first, second, player.symbol)
+      true
+    else
+      false
     end
   end
 
-  def check_diagonal
-    ar = []
-    arrr = []
-    i = 0
-    j = 2
-    @data.each do |arr|
-      ar.push(arr[i])
-      arrr.push(arr[j])
-      i += 1
-      j -= 1
-    end
-    return 1 if ar.all?('X') || arrr.all?('X')
-    return 2 if ar.all?('O') || arrr.all?('O')
+  def move(first, second, symbol)
+    @data[first][second] = symbol
+    result = check_winner(@data)
+    print_board
+    player_won(@player1) if result == 1
+    player_won(@player2) if result == 2
   end
 end
