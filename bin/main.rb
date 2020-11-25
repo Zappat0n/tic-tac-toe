@@ -1,4 +1,5 @@
 #!/usr/bin/ruby
+# frozen_string_literal: true
 
 @data = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']]
 
@@ -7,6 +8,9 @@ def user_info
   @player1 = gets.chomp
   puts "Please introduce second player's name:"
   @player2 = gets.chomp
+  board_to_s
+  iteration
+  @symbol = 'O'
 end
 
 def random_winner
@@ -14,27 +18,18 @@ def random_winner
   puts "Player #{@player1} has won!" if random < 0.2
   puts "Player #{@player2} has won!" if random > 0.2 && random < 0.4
   puts 'This is a Draw!' if random > 0.4
+  abort
 end
 
 def iteration
-  user_info
-  board_to_s
-  i = 0
   player = @player1
-  symbol = 'X'
-  while i < 9
-    if moves(player, symbol)
+  0.upto(9) do |i|
+    if moves(player)
       player = player == @player1 ? @player2 : @player1
-      symbol = symbol == 'X' ? 'O' : 'X'
-
-      i += 1
     else
       puts board_to_s, 'Wrong move!'
     end
-    if i >= 5
-      random_winner
-      return
-    end
+    random_winner if i >= 5
   end
 end
 
@@ -49,11 +44,12 @@ def board_position(player_input)
   end
 end
 
-def moves(player, symbol)
+def moves(player)
   puts "Turn of #{player}"
+  @symbol = @symbol == 'X' ? 'O' : 'X'
   @player_input = gets.chomp
   if @player_input.length == 2 && @player_input[1].to_i < 4 && %w[a b c].include?(@player_input[0])
-    board_move(board_position(@player_input), symbol)
+    board_move(board_position(@player_input), @symbol)
     true
   else
     false
@@ -79,4 +75,4 @@ def board_move(position, symbol)
 end
 
 puts 'Welcome to tic-tac-toe!'
-iteration
+user_info
