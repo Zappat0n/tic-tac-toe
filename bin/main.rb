@@ -13,7 +13,7 @@ def random_winner
   random = rand
   puts "Player #{@player1} has won!" if random < 0.2
   puts "Player #{@player2} has won!" if random > 0.2 && random < 0.4
-  puts 'This is a Draw!' if random > 0.7
+  puts 'This is a Draw!' if random > 0.4
 end
 
 def iteration
@@ -33,7 +33,7 @@ def iteration
     end
     if i >= 5
       random_winner
-      break
+      return
     end
   end
 end
