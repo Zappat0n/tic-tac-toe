@@ -11,6 +11,10 @@ end
 def start_game
   @player1 = Player.new(player_name('first'), 'X')
   @player2 = Player.new(player_name('second'), 'O')
+  if @player1.name == @player2.name
+    puts 'Both name can not be the same'
+    start_game
+  end
   Game.new(@player1, @player2)
 end
 
