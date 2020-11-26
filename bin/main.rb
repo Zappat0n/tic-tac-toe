@@ -4,8 +4,12 @@ require_relative '../lib/game_logic'
 
 def player_name(order)
   puts "Please introduce #{order} player's name:"
+
   name = gets.chomp
-  player_name(order) if name == ''
+  if name == '' || name.split('').all?(' ') || !(name.split('').select { |x| x[/\d+/] }).length.zero?
+    puts 'Enter a Valid Name'
+    name = player_name(order)
+  end
   name
 end
 
@@ -53,6 +57,7 @@ def print_board
 end
 
 def player_move(player)
+  puts 'Expected Moves [a1-a3] or [b1-b3] or [c1-c3]'
   puts "Turn of #{player.name}"
   gets.chomp
 end
