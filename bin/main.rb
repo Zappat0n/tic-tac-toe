@@ -34,6 +34,7 @@ def main_loop
     else
       player_wrong_move
     end
+    random_winner if i >= 5
   end
   this_is_a_draw
 end
