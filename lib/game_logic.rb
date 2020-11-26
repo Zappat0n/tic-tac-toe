@@ -29,7 +29,7 @@ class Game
   def move(first, second, symbol)
     @data[first][second] = symbol
     result = check_winner(@data)
-    player_won(@player1) if result == 1
-    player_won(@player2) if result == 2
+    player_won(@player1, @data) if result == 1
+    player_won(@player2, @data) if result == 2
   end
 end

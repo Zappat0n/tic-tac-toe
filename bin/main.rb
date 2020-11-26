@@ -44,11 +44,12 @@ def prepare_next_move(player)
   player == @player1 ? @player2 : @player1
 end
 
-def print_board
+def print_board(data = nil)
   puts '  1 2 3', '--------'
   i = 0
   arr = %w[a b c]
-  @game.data.each do |line|
+  newdata = data.nil? ? @game.data : data
+  newdata.each do |line|
     text = "#{arr[i]}|#{line.join('|')}|"
     puts text, '--------'
     i += 1
@@ -63,10 +64,12 @@ def player_move(player)
 end
 
 def player_wrong_move
-  puts print_board, 'Wrong move!'
+  print_board
+  puts 'Wrong move!'
 end
 
-def player_won(player)
+def player_won(player, data)
+  print_board(data)
   abort("Congratulations #{player.name}, you won the Game!")
 end
 
