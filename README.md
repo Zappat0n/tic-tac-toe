@@ -58,7 +58,7 @@ Contributions, issues, and feature requests are welcome! Start by:
 👤 **Muhammad Adeel Danish**
 
 - GitHub: [@bashforger](https://github.com/bashforger)
-- Twitter: [@bashforger](https://twitter.com/BashForge)
+- Twitter: [@BashForge](https://twitter.com/BashForge)
 - LinkedIn: [@adeel](https://www.linkedin.com/Muhammad-adeel-danish)
 
 👤 **Angel Barros**
