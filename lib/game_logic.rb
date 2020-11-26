@@ -10,10 +10,6 @@ class Game
     @player2 = player2
   end
 
-  def right_move?(first, second)
-    @player_input.length == 2 && !first.nil? && !second.nil? && @data[first][second] == ' '
-  end
-
   def player_moves?(player, player_input)
     @player_input = player_input
     first = %w[a b c].index(@player_input[0])
@@ -24,6 +20,12 @@ class Game
     else
       false
     end
+  end
+
+  private
+
+  def right_move?(first, second)
+    @player_input.length == 2 && !first.nil? && !second.nil? && @data[first][second] == ' '
   end
 
   def move(first, second, symbol)
