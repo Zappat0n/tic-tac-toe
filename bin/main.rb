@@ -1,77 +1,81 @@
 #!/usr/bin/ruby
+require_relative '../lib/player'
+require_relative '../lib/game_logic'
 
-@data = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']]
+def player_name(order)
+  puts "Please introduce #{order} player's name:"
 
-def user_info
-  puts "Please introduce first player's name:"
-  @player1 = gets.chomp
-  puts "Please introduce second player's name:"
-  @player2 = gets.chomp
-  board_to_s
-  iteration
-  @symbol = 'O'
+  name = gets.chomp
+  if name == '' || name.split('').all?(' ') || !(name.split('').select { |x| x[/\d+/] }).length.zero?
+    puts 'Enter a Valid Name'
+    name = player_name(order)
+  end
+  name
 end
 
-def random_winner
-  random = rand
-  puts "Player #{@player1} has won!" if random < 0.2
-  puts "Player #{@player2} has won!" if random > 0.2 && random < 0.4
-  puts 'This is a Draw!' if random > 0.4
-  abort
+def start_game
+  @player1 = Player.new(player_name('first'), 'X')
+  @player2 = Player.new(player_name('second'), 'O')
+  if @player1.name == @player2.name
+    puts 'Both names can not be the same'
+    start_game
+  end
+  @round = 0
+  @game = Game.new(@player1, @player2)
+  print_board
+  main_loop
 end
 
-def iteration
+def main_loop
   player = @player1
-  0.upto(9) do |i|
-    if moves(player)
-      player = player == @player1 ? @player2 : @player1
+  while @round < 9
+    if @game.player_moves?(player, player_move(player))
+      player = prepare_next_move(player)
     else
-      puts board_to_s, 'Wrong move!'
+      player_wrong_move
     end
-    random_winner if i >= 5
   end
+  this_is_a_draw
 end
 
-def board_position(player_input)
-  case player_input[0]
-  when 'a'
-    player_input[1].to_i
-  when 'b'
-    3 + player_input[1].to_i
-  when 'c'
-    6 + player_input[1].to_i
-  end
+def prepare_next_move(player)
+  @round += 1
+  print_board
+  player == @player1 ? @player2 : @player1
 end
 
-def moves(player)
-  puts "Turn of #{player}"
-  @symbol = @symbol == 'X' ? 'O' : 'X'
-  @player_input = gets.chomp
-  if @player_input.length == 2 && @player_input[1].to_i < 4 && %w[a b c].include?(@player_input[0])
-    board_move(board_position(@player_input), @symbol)
-    true
-  else
-    false
-  end
-end
-
-def board_to_s
-  puts '  1 2 3'
-  puts '--------'
+def print_board(data = nil)
+  puts '  1 2 3', '--------'
   i = 0
   arr = %w[a b c]
-  @data.each do |line|
+  newdata = data.nil? ? @game.data : data
+  newdata.each do |line|
     text = "#{arr[i]}|#{line.join('|')}|"
-    puts text
-    puts '--------'
+    puts text, '--------'
     i += 1
   end
+  ' '
 end
 
-def board_move(position, symbol)
-  @data[(position - 1) / 3][position % 3 - 1] = symbol
-  board_to_s
+def player_move(player)
+  puts 'Expected Moves [a1-a3] or [b1-b3] or [c1-c3]'
+  puts "Turn of #{player.name}"
+  gets.chomp
+end
+
+def player_wrong_move
+  print_board
+  puts 'Wrong move!'
+end
+
+def player_won(player, data)
+  print_board(data)
+  abort("Congratulations #{player.name}, you won the Game!")
+end
+
+def this_is_a_draw
+  abort('This is a draw')
 end
 
 puts 'Welcome to tic-tac-toe!'
-user_info
+start_game
